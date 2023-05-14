@@ -108,8 +108,8 @@ def quicksort(arr, start, end, pivot_choice):
         pivot = arr[pivot_idx]
         i = start
         j = end
-        while i < j:
-            while i < len(arr) and arr[i] <= pivot:
+        while i <= j:
+            while i <= end and arr[i] <= pivot:
                 i += 1
             while arr[j] > pivot:
                 j -= 1
@@ -118,6 +118,7 @@ def quicksort(arr, start, end, pivot_choice):
         arr[pivot_idx], arr[j] = arr[j], arr[pivot_idx]
         quicksort(arr, start, j-1, pivot_choice)
         quicksort(arr, j+1, end, pivot_choice)
+
 
 
 # Generar vector aleatorio
