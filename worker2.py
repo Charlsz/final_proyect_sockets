@@ -2,16 +2,6 @@ import time
 import zmq
 
 def mergesort(arr):
-    """
-    Ordena un arreglo de manera ascendente utilizando el algoritmo de mergesort.
-
-    Args:
-        arr (list): El arreglo a ordenar.
-
-    Returns:
-        list: El arreglo ordenado.
-
-    """
     if len(arr) <= 1:
         return arr
     mid = len(arr) // 2
@@ -20,17 +10,6 @@ def mergesort(arr):
     return merge(left, right)
 
 def merge(left, right):
-    """
-    Combina dos arreglos ordenados en un solo arreglo ordenado.
-
-    Args:
-        left (list): El primer arreglo ordenado.
-        right (list): El segundo arreglo ordenado.
-
-    Returns:
-        list: El arreglo combinado y ordenado.
-
-    """
     result = []
     i = j = 0
     while i < len(left) and j < len(right):
@@ -45,40 +24,17 @@ def merge(left, right):
     return result
 
 def heapsort(arr):
-    """
-    Ordena un arreglo de manera ascendente utilizando el algoritmo de heapsort.
-
-    Args:
-        arr (list): El arreglo a ordenar.
-
-    """
     build_heap(arr)
     for i in range(len(arr)-1, 0, -1):
         arr[i], arr[0] = arr[0], arr[i]
         heapify(arr, 0, i)
 
 def build_heap(arr):
-    """
-    Construye un heap a partir de un arreglo dado.
-
-    Args:
-        arr (list): El arreglo para construir el heap.
-
-    """
     n = len(arr)
     for i in range(n//2 - 1, -1, -1):
         heapify(arr, i, n)
 
 def heapify(arr, i, n):
-    """
-    Aplica la operación de heapify en un subárbol de un heap.
-
-    Args:
-        arr (list): El arreglo que representa el heap.
-        i (int): Índice del nodo raíz del subárbol.
-        n (int): Tamaño del heap.
-
-    """
     largest = i
     left = 2*i + 1
     right = 2*i + 2
@@ -91,21 +47,6 @@ def heapify(arr, i, n):
         heapify(arr, largest, n)
 
 def quicksort(arr, start, end, pivot_choice):
-    """
-    Ordena un vector utilizando el algoritmo de Quicksort de manera recursiva.
-
-    Args:
-        arr (list): El vector a ser ordenado.
-        start (int): El índice de inicio del rango a ordenar.
-        end (int): El índice de fin del rango a ordenar.
-        pivot_choice (str): La elección del pivote inicial ("left" o "right").
-
-    Returns:
-        None
-
-    Raises:
-        None
-    """
     if start < end:
         if pivot_choice == "left":
             pivot_idx = start
