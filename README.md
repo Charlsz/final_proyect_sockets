@@ -2,13 +2,13 @@
 
 implementa tres algoritmos de ordenamiento: mergesort, heapsort y quicksort.
 
-Mergesort es un algoritmo de ordenamiento recursivo que divide el arreglo en dos mitades, ordena cada mitad y luego combina las dos mitades ordenadas en un solo arreglo ordenado.
+`Mergesort` es un algoritmo de ordenamiento recursivo que divide el arreglo en dos mitades, ordena cada mitad y luego combina las dos mitades ordenadas en un solo arreglo ordenado.
 
-Heapsort es un algoritmo de ordenamiento que utiliza un heap binario para ordenar los elementos. Primero se construye un heap a partir del arreglo y luego se extraen los elementos del heap en orden ascendente.
+`Heapsort` es un algoritmo de ordenamiento que utiliza un heap binario para ordenar los elementos. Primero se construye un heap a partir del arreglo y luego se extraen los elementos del heap en orden ascendente.
 
-Quicksort es un algoritmo de ordenamiento recursivo que utiliza una estrategia de "divide y conquista". Se elige un elemento llamado pivote y se divide el arreglo en dos subarreglos: uno con elementos menores al pivote y otro con elementos mayores. Luego se ordenan recursivamente los subarreglos y se combinan para obtener el arreglo ordenado.
+`Quicksort` es un algoritmo de ordenamiento recursivo que utiliza una estrategia de "divide y conquista". Se elige un elemento llamado pivote y se divide el arreglo en dos subarreglos: uno con elementos menores al pivote y otro con elementos mayores. Luego se ordenan recursivamente los subarreglos y se combinan para obtener el arreglo ordenado.
 
-El código utiliza la biblioteca zmq para la comunicación entre procesos y la biblioteca random para generar números aleatorios.
+El código utiliza la biblioteca `zmq` para la comunicación entre procesos y la biblioteca random para generar números aleatorios.
 
 Tambien se implementa un menú de opciones para el usuario, donde se le pide que seleccione uno de los tres algoritmos de ordenamiento disponibles (mergesort, heapsort o quicksort) o salir del programa. 
 
