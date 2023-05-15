@@ -1,4 +1,4 @@
-import random
+import time
 import zmq
 
 def mergesort(arr):
@@ -132,103 +132,44 @@ def quicksort(arr, start, end, pivot_choice):
 
         quicksort(arr, start, pivot_idx - 1, pivot_choice)
         quicksort(arr, pivot_idx + 1, end, pivot_choice)
-        
-        
+
+# Configurar el contexto de ZeroMQ
+context = zmq.Context()
+
+# Configurar el socket del worker 2 para recibir el problema
+worker2_socket = context.socket(zmq.REP)
+worker2_socket.bind("tcp://localhost:5556")
+
+# Configurar el socket del worker 1 para enviar el problema
+worker1_socket = context.socket(zmq.REQ)
+worker1_socket.connect("tcp://localhost:5555")
+
 while True:
-    print("------ Menú de Ordenamiento ------")
-    print("1. Ordenar utilizando Mergesort")
-    print("2. Ordenar utilizando Heapsort")
-    print("3. Ordenar utilizando Quicksort")
-    print("4. Salir")
-    
-    choice = input("Ingrese el número de opción: ")
-    
-    if choice == "1":
-        n = int(input("Ingrese el tamaño del vector: "))
-        vector = [random.randint(1, 1000000) for _ in range(n)]
+    # Esperar a recibir el problema del Worker 1
+    problem = worker2_socket.recv_json()
 
-        # Configurar el contexto de ZeroMQ
-        context = zmq.Context()
-
-        # Configurar el socket para enviar el vector al primer worker
-        worker_socket = context.socket(zmq.REQ)
-        worker_socket.connect("tcp://localhost:5555")
-
-        # Enviar vector al primer worker
-        worker_socket.send_json(vector)
-
-        # Recibir vector ordenado del último worker
-        sorted_vector = worker_socket.recv_json()
-
-        # Recibir tiempo total del último worker
-        elapsed_time = float(worker_socket.recv())
-
-        # Cerrar el socket del worker
-        worker_socket.close()
-
-        print("Vector ordenado:", sorted_vector)
-        print("Tiempo total:", elapsed_time)
-        print()
-        
-    elif choice == "2":
-        n = int(input("Ingrese el tamaño del vector: "))
-        vector = [random.randint(1, 1000000) for _ in range(n)]
-
-        # Configurar el contexto de ZeroMQ
-        context = zmq.Context()
-
-        # Configurar el socket para enviar el vector al primer worker
-        worker_socket = context.socket(zmq.REQ)
-        worker_socket.connect("tcp://localhost:5555")
-
-        # Enviar vector al primer worker
-        worker_socket.send_json(vector)
-
-        # Recibir vector ordenado del último worker
-        sorted_vector = worker_socket.recv_json()
-
-        # Recibir tiempo total del último worker
-        elapsed_time = float(worker_socket.recv())
-
-        # Cerrar el socket del worker
-        worker_socket.close()
-
-        print("Vector ordenado:", sorted_vector)
-        print("Tiempo total:", elapsed_time)
-        print()
-        
-    elif choice == "3":
-        n = int(input("Ingrese el tamaño del vector: "))
-        vector = [random.randint(1, 1000000) for _ in range(n)]
-        pivot_choice = input("Seleccione el pivote inicial (left/right): ")
-
-        # Configurar el contexto de ZeroMQ
-        context = zmq.Context()
-
-        # Configurar el socket para enviar el vector al primer worker
-        worker_socket = context.socket(zmq.REQ)
-        worker_socket.connect("tcp://localhost:5555")
-
-        # Enviar vector al primer worker
-        worker_socket.send_json(vector)
-
-        # Recibir vector ordenado del último worker
-        sorted_vector = worker_socket.recv_json()
-
-        # Recibir tiempo total del último worker
-        elapsed_time = float(worker_socket.recv())
-
-        # Cerrar el socket del worker
-        worker_socket.close()
-
-        print("Vector ordenado:", sorted_vector)
-        print("Tiempo total:", elapsed_time)
-        print()
-        
-    elif choice == "4":
-        print("¡Hasta luego!")
-        break
+    # Resolver el problema
+    if problem['algorithm'] == 'mergesort':
+        sorted_vector = mergesort(problem['vector'])
+    elif problem['algorithm'] == 'heapsort':
+        sorted_vector = heapsort(problem['vector'])
+    elif problem['algorithm'] == 'quicksort':
+        sorted_vector = problem['vector'].copy()
+        quicksort(sorted_vector, 0, len(sorted_vector) - 1, problem['pivot_choice'])
     else:
-        print("Opción inválida. Por favor, ingrese un número de opción válido.")
-        print()
+        worker2_socket.send_json({'error': 'Algoritmo de ordenamiento no válido'})
+        continue
 
+    # Enviar el vector ordenado al Worker 1
+    worker1_socket.send_json({'sorted_vector': sorted_vector})
+
+    # Recibir el vector ordenado del Worker 1
+    sorted_vector = worker1_socket.recv_json()['sorted_vector']
+
+    # Enviar el vector ordenado al Worker 1
+    worker2_socket.send_json({'sorted_vector': sorted_vector})
+
+# Cerrar los sockets y el contexto de ZeroMQ
+worker1_socket.close()
+worker2_socket.close()
+context.term()
