@@ -88,36 +88,52 @@ def heapify(arr, i, n):
     if largest != i:
         arr[i], arr[largest] = arr[largest], arr[i]
         heapify(arr, largest, n)
-        
+
 def quicksort(arr, start, end, pivot_choice):
     """
-    Ordena un arreglo de manera ascendente utilizando el algoritmo de quicksort.
+    Ordena un vector utilizando el algoritmo de Quicksort de manera recursiva.
 
     Args:
-        arr (list): El arreglo a ordenar.
-        start (int): Índice de inicio del segmento a ordenar.
-        end (int): Índice de fin del segmento a ordenar.
-        pivot_choice (str): Elección del pivote inicial ("left" o "right").
+        arr (list): El vector a ser ordenado.
+        start (int): El índice de inicio del rango a ordenar.
+        end (int): El índice de fin del rango a ordenar.
+        pivot_choice (str): La elección del pivote inicial ("left" o "right").
 
+    Returns:
+        None
+
+    Raises:
+        None
     """
     if start < end:
         if pivot_choice == "left":
             pivot_idx = start
-        else:
+        elif pivot_choice == "right":
             pivot_idx = end
+        else:
+            raise ValueError("La opción de pivote es inválida. Por favor, seleccione 'left' o 'right'.")
+
         pivot = arr[pivot_idx]
         i = start
         j = end
-        while i < j:
-            while i < len(arr) and arr[i] <= pivot:
+
+        while i <= j:
+            while i <= end and arr[i] <= pivot:
                 i += 1
-            while arr[j] > pivot:
+            while j >= start and arr[j] > pivot:
                 j -= 1
+
             if i < j:
                 arr[i], arr[j] = arr[j], arr[i]
+
         arr[pivot_idx], arr[j] = arr[j], arr[pivot_idx]
-        quicksort(arr, start, j-1, pivot_choice)
-        quicksort(arr, j+1, end, pivot_choice)
+        pivot_idx = j
+
+        quicksort(arr, start, pivot_idx - 1, pivot_choice)
+        quicksort(arr, pivot_idx + 1, end, pivot_choice)
+
+
+
 
 
 # Generar vector aleatorio
