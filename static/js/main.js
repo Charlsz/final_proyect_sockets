@@ -3,7 +3,19 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
+function generarVector() {
+	// Obtener el valor del campo de tamaño de vector
+	var tamaño = document.getElementById("vector-size").value;
 
+	// Generar el vector
+	var vector = [];
+	for (var i = 0; i < tamaño; i++) {
+		vector.push(Math.floor(Math.random() * 100)); // Agrega un número aleatorio entre 0 y 99 al vector
+	}
+
+	// Mostrar el vector generado en el campo de vector
+	document.getElementById("vector").value = vector.join(", ");
+}
 (function($) {
 
 	var	$window = $(window),
