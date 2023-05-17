@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<!--
+	Dimension by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Sockets & Ordenamientos</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="{{ url_for('static',filename='css/main.css')}}" >
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="logo">
+							<span class="icon fa-gem"></span>
+						</div>
+						<div class="content">
+							<div class="inner">
+								<h1>Sockets & Ordenamientos</h1>
+								<p>This tool allows you to interact with a server for the purpose of sorting a vector by means of three different sorting methods.</p>
+							</div>
+							<table>
+								<tr>
+									<td>
+										<label for="vector-size">Tamaño del vector:</label>
+										<input type="number" id="vector-size" name="vector-size">
+									</td>
+									<td>
+										<label for="vector">Vector generado:</label>
+										<input type="text" id="vector" name="vector" readonly>
+									</td>
+									<td>
+										<button type="button" onclick="generarVector()">Generar vector</button>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<nav>
+							<ul>
+								<li><a href="#intro">QuickSort</a></li>
+								<li><a href="#work">HeapSort</a></li>
+								<li><a href="#about">MergeSort</a></li>
+								<!--<li><a href="#elements">Elements</a></li>-->
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Intro -->
+							<article id="intro">
+								<h2 class="major">QuickSort</h2>
+								<p>QuickSort is a sorting algorithm based on the Divide and Conquer algorithm that picks an element as a pivot and partitions the given array around the picked pivot by placing the pivot in its correct position in the sorted array.</p>
+								
+							</article>
+
+						<!-- Work -->
+							<article id="work">
+								<h2 class="major">HeapSort</h2>						
+								<p>Heap sort is a comparison-based sorting technique based on Binary Heap data structure. It is similar to the selection sort where we first find the minimum element and place the minimum element at the beginning. Repeat the same process for the remaining elements.</p>
+							</article>
+
+						<!-- About -->
+							<article id="about">
+								<h2 class="major">MergeSort</h2>
+								<p>Merge sort is defined as a sorting algorithm that works by dividing an array into smaller subarrays, sorting each subarray, and then merging the sorted subarrays back together to form the final sorted array.</p>
+							</article>
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<p class="copyright"> Potatoes</p>
+					</footer>
+			</div>
+
+		<!-- BG -->
+			<div id="bg"></div>
+
+		<!-- Scripts -->
+			<script src="{{ url_for('static',filename='js/jquery.min.js')}}"></script>
+			<script src="{{ url_for('static',filename='js/browser.min.js')}}"></script>
+			<script src="{{ url_for('static',filename='js/breakpoints.min.js')}}"></script>
+			<script src="{{ url_for('static',filename='js/util.js')}}"></script>
+			<script src="{{ url_for('static',filename='js/main.js')}}"></script>
+
+	</body>
+</html>

@@ -117,7 +117,6 @@ def quicksort(arr, start, end, pivot_choice):
         pivot = arr[pivot_idx]
         i = start
         j = end
-
         while i <= j:
             while i <= end and arr[i] <= pivot:
                 i += 1
@@ -133,7 +132,8 @@ def quicksort(arr, start, end, pivot_choice):
         quicksort(arr, start, pivot_idx - 1, pivot_choice)
         quicksort(arr, pivot_idx + 1, end, pivot_choice)
         
-        
+
+# Generar vector aleatorio
 while True:
     print("------ Menú de Ordenamiento ------")
     print("1. Ordenar utilizando Mergesort")
