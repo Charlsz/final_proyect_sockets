@@ -25,7 +25,7 @@
 						<h1>Sockets & Ordenamientos</h1>
 						<p>This tool allows you to interact with a server for the purpose of sorting a vector by means of three different sorting methods.</p>
 					</div>
-					<form action="/" method="POST"> <!-- Agregado el atributo action y method -->
+					<form action="/" method="POST">
 						<table>
 							<tr>
 								<td>
@@ -34,15 +34,15 @@
 								</td>
 								<td>
 									<label for="vector">Vector generado:</label>
-									<input type="text" id="vector" name="vector" readonly>
+									<input type="text" id="vector" name="vector" readonly value="{{ vector|join(', ') }}">
 								</td>
 								<td>
-									<button type="button" onclick="generarVector()">Generar vector</button>
+									<button type="submit">Generar vector</button>
 								</td>
 							</tr>
 						</table>
-						<button type="submit">Enviar</button> <!-- Botón de tipo submit para enviar el formulario -->
 					</form>
+					
 				</div>
 				<nav>
 					<ul>
