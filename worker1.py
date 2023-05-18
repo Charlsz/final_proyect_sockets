@@ -79,11 +79,11 @@ context = zmq.Context()
 
 # Configurar el socket del worker 1 para recibir el problema
 worker1_socket = context.socket(zmq.REP)
-worker1_socket.bind("tcp://localhost:5555")
+worker1_socket.bind("tcp://172.17.64.1:5555")
 
 # Configurar el socket del worker 2 para enviar el problema
 worker2_socket = context.socket(zmq.REQ)
-worker2_socket.connect("tcp://localhost:5556")
+worker2_socket.connect("tcp://172.17.64.1:5556")
 
 while True:
     # Esperar a recibir el problema del cliente
@@ -92,7 +92,7 @@ while True:
     # Resolver el problema
     start_time = time.time()
 
-    if problem['algorithm'] == 'mergesort':
+    if  problem['algorithm'] == 'mergesort':
         sorted_vector = mergesort(problem['vector'])
     elif problem['algorithm'] == 'heapsort':
         sorted_vector = heapsort(problem['vector'])

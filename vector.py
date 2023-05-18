@@ -146,22 +146,29 @@ while True:
     if choice == "1":
         n = int(input("Ingrese el tamaño del vector: "))
         vector = [random.randint(1, 1000000) for _ in range(n)]
-
+        print(vector)
+        print("-----------------------------------------")
         # Configurar el contexto de ZeroMQ
         context = zmq.Context()
 
         # Configurar el socket para enviar el vector al primer worker
         worker_socket = context.socket(zmq.REQ)
-        worker_socket.connect("tcp://localhost:5555")
+        worker_socket.connect("tcp://172.17.64.1:5555")
+        problem = {
+            'algorithm': 'mergesort',
+            'vector': vector
+        }
 
         # Enviar vector al primer worker
-        worker_socket.send_json(vector)
+        worker_socket.send_json(problem)
+
 
         # Recibir vector ordenado del último worker
-        sorted_vector = worker_socket.recv_json()
+        response = worker_socket.recv_json()
 
-        # Recibir tiempo total del último worker
-        elapsed_time = float(worker_socket.recv())
+        # Obtener el vector ordenado y el tiempo total de la respuesta
+        sorted_vector = response['sorted_vector']
+        elapsed_time = response['elapsed_time']
 
         # Cerrar el socket del worker
         worker_socket.close()
@@ -179,10 +186,14 @@ while True:
 
         # Configurar el socket para enviar el vector al primer worker
         worker_socket = context.socket(zmq.REQ)
-        worker_socket.connect("tcp://localhost:5555")
-
+        worker_socket.connect("tcp://172.17.64.1:5555")
+        problem = {
+            'algorithm': 'heapsort',
+            'vector': vector
+        }
         # Enviar vector al primer worker
-        worker_socket.send_json(vector)
+        worker_socket.send_json(problem)
+
 
         # Recibir vector ordenado del último worker
         sorted_vector = worker_socket.recv_json()
@@ -207,10 +218,15 @@ while True:
 
         # Configurar el socket para enviar el vector al primer worker
         worker_socket = context.socket(zmq.REQ)
-        worker_socket.connect("tcp://localhost:5555")
-
+        worker_socket.connect("tcp://172.17.64.1:5555")
+        problem = {
+            'algorithm': 'quicksort',
+            'vector': vector,
+            'pivot_choice': pivot_choice
+        }
         # Enviar vector al primer worker
-        worker_socket.send_json(vector)
+        worker_socket.send_json(problem)
+
 
         # Recibir vector ordenado del último worker
         sorted_vector = worker_socket.recv_json()
