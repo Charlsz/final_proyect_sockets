@@ -28,6 +28,7 @@ def heapsort(arr):
     for i in range(len(arr)-1, 0, -1):
         arr[i], arr[0] = arr[0], arr[i]
         heapify(arr, 0, i)
+    return arr
 
 def build_heap(arr):
     n = len(arr)
@@ -79,26 +80,32 @@ context = zmq.Context()
 
 # Configurar el socket del worker 1 para recibir el problema
 worker1_socket = context.socket(zmq.REP)
-worker1_socket.bind("tcp://172.17.64.1:5555")
+worker1_socket.bind("tcp://127.0.0.1:5555")
+print("conecto")
 
 # Configurar el socket del worker 2 para enviar el problema
 worker2_socket = context.socket(zmq.REQ)
-worker2_socket.connect("tcp://172.17.64.1:5556")
+worker2_socket.connect("tcp://127.0.0.1:5556")
+print("conecto2")
 
 while True:
     # Esperar a recibir el problema del cliente
     problem = worker1_socket.recv_json()
-
+    print("recivio")
+    print(problem['vector'])
     # Resolver el problema
     start_time = time.time()
 
     if  problem['algorithm'] == 'mergesort':
         sorted_vector = mergesort(problem['vector'])
     elif problem['algorithm'] == 'heapsort':
+        
         sorted_vector = heapsort(problem['vector'])
     elif problem['algorithm'] == 'quicksort':
-        sorted_vector = problem['vector'].copy()
-        quicksort(sorted_vector, 0, len(sorted_vector) - 1, problem['pivot_choice'])
+        print("quitoy")
+        sorted_vector = problem['vector']
+        pivot_choice = problem['pivot_choice']
+        quicksort(sorted_vector, 0, len(sorted_vector) - 1, pivot_choice)
     else:
         worker1_socket.send_json({'error': 'Algoritmo de ordenamiento no válido'})
         continue
@@ -108,12 +115,14 @@ while True:
     if elapsed_time <= 5.0:
         # Enviar el vector ordenado al cliente
         worker1_socket.send_json({'sorted_vector': sorted_vector, 'elapsed_time': elapsed_time})
+        print("envia cli")
     else:
         # Pasar el problema al Worker 2
         worker2_socket.send_json(problem)
-
+        print("envia otro")
         # Recibir el vector ordenado del Worker 2
         sorted_vector = worker2_socket.recv_json()['sorted_vector']
+        print("recibe otro")
         elapsed_time = float(worker2_socket.recv_json()['elapsed_time'])
 
         # Enviar el vector ordenado al cliente

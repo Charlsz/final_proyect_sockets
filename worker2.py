@@ -28,6 +28,7 @@ def heapsort(arr):
     for i in range(len(arr)-1, 0, -1):
         arr[i], arr[0] = arr[0], arr[i]
         heapify(arr, 0, i)
+    return arr
 
 def build_heap(arr):
     n = len(arr)
@@ -45,7 +46,7 @@ def heapify(arr, i, n):
     if largest != i:
         arr[i], arr[largest] = arr[largest], arr[i]
         heapify(arr, largest, n)
-
+        
 def quicksort(arr, start, end, pivot_choice):
     if start < end:
         if pivot_choice == "left":
@@ -79,16 +80,17 @@ context = zmq.Context()
 
 # Configurar el socket del worker 2 para recibir el problema
 worker2_socket = context.socket(zmq.REP)
-worker2_socket.bind("tcp://172.17.64.1:5556")
-
+worker2_socket.bind("tcp://127.0.0.1:5556")
+print("conecto")
 # Configurar el socket del worker 1 para enviar el problema
 worker1_socket = context.socket(zmq.REQ)
-worker1_socket.connect("tcp://172.17.64.1:5555")
-
+worker1_socket.connect("tcp://127.0.0.1:5555")
+print("conecto2")
 while True:
     # Esperar a recibir el problema del Worker 1
     problem = worker2_socket.recv_json()
-
+    print("recivio")
+    print(problem['vector'])
     # Resolver el problema
     if problem['algorithm'] == 'mergesort':
         sorted_vector = mergesort(problem['vector'])
@@ -103,13 +105,13 @@ while True:
 
     # Enviar el vector ordenado al Worker 1
     worker1_socket.send_json({'sorted_vector': sorted_vector})
-
+    print("envia wo")
     # Recibir el vector ordenado del Worker 1
     sorted_vector = worker1_socket.recv_json()['sorted_vector']
-
+    print("recibe wo")
     # Enviar el vector ordenado al Worker 1
     worker2_socket.send_json({'sorted_vector': sorted_vector})
-
+    print("envia wo ordenado")
 # Cerrar los sockets y el contexto de ZeroMQ
 worker1_socket.close()
 worker2_socket.close()

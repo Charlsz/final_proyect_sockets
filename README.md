@@ -14,4 +14,9 @@ Tambien se implementa un menú de opciones para el usuario, donde se le pide que
 
 El código utiliza un bucle `while True` para mostrar el menú de opciones y pedir al usuario que ingrese su elección. Si la elección del usuario es "1", "2" o "3", se le pide que ingrese el tamaño del vector a ordenar y se genera un vector aleatorio con números enteros entre 1 y 1000000. Luego, se utiliza ZeroMQ para enviar el vector a un proceso worker que implementa el algoritmo de ordenamiento seleccionado por el usuario. Una vez que el worker termina de ordenar el vector, envía el vector ordenado y el tiempo total que tardó en ordenarlo de vuelta al proceso principal. El proceso principal muestra el vector ordenado y el tiempo total en la pantalla. 
 
+
 Si la elección del usuario es "4", el programa sale del bucle `while True` y muestra un mensaje de despedida. Si la elección del usuario no es válida, se le pide que ingrese una opción válida y se muestra el menú de opciones nuevamente.
+
+Estudiantes:
+Carlos Galvis
+Luisa Guzman

@@ -3,6 +3,26 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
+// main.js
+
+function showPivotForm() {
+	document.getElementById('pivot-form').style.display = 'block';
+}
+
+function submitPivotChoice() {
+	var pivotChoice = document.getElementById('pivot-choice').value;
+	var vectorSize = document.getElementById('vector-size').value;
+
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', '/');
+	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	xhr.onload = function() {
+		if (xhr.status === 200) {
+			document.getElementById('main-form').innerHTML = xhr.responseText;
+		}
+	};
+	xhr.send('sort-quick=true&vector-size=' + vectorSize + '&pivot-choice=' + pivotChoice);
+}
 
 (function($) {
 
